@@ -1,0 +1,2 @@
+virtualenvs
+C:\Users\Walla\AppData\Local\pypoetry\Cache\virtualenvs
