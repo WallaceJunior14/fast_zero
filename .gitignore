@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 #Database
-database.db
+databse.db
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
