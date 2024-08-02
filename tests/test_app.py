@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from fast_zero.schemas import UserPublic
+
 
 def test_read_root_deve_retornar_ok(client):
     response = client.get('/')  # Act (ação)
@@ -32,29 +34,29 @@ def test_read_users(client):
     response = client.get('/users/')
 
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {
-        'users': [
-            {
-                'id': 1,
-                'username': 'testeusername',
-                'email': 'test@test.com',
-            }
-        ]
-    }
+    assert response.json() == {'users': []}
 
 
-def test_get_user_from_id(client):
+def test_read_user_with_user(client, user):
+    user_schema = UserPublic.model_validate(user).model_dump()
+    response = client.get('/users/')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {'users': [user_schema]}
+
+
+def test_get_user_from_id(client, user):
     response = client.get('/users/1')
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
         'id': 1,
-        'username': 'testeusername',
-        'email': 'test@test.com',
+        'username': 'wallace',
+        'email': 'wallace@gmail.com',
     }
 
 
-def test_update_user(client):
+def test_update_user(client, user):
     response = client.put(
         '/users/1',
         json={
@@ -71,8 +73,8 @@ def test_update_user(client):
     }
 
 
-def test_delete_user(client):
+def test_delete_user(client, user):
     response = client.delete('/users/1')
 
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {'message': 'User deleted.'}
+    assert response.json() == {'message': 'User delected'}
